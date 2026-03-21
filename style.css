@@ -214,20 +214,21 @@ input[type="range"]:focus::-moz-range-track {
   font-size: var(--font-small);
 }
 
+
 /* Results container */
 .results {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.6rem; /* space between rows of result lines */
+  gap: 0.6rem; /* space between rows */
 }
 
-/* Each result line is a 2-col grid: label (1fr) + value (auto) */
+/* Each result line: label (1fr) + value (auto) */
 .result-line {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto; /* minmax prevents weird wrapping */
   align-items: center;
-  column-gap: 0.75rem;  /* explicit horizontal gap between label and output */
-  row-gap: 0.25rem;     /* small vertical gap if label wraps */
+  column-gap: 0.9rem;         /* <-- explicit horizontal gap */
+  row-gap: 0.25rem;           /* small vertical gap if label wraps */
   background: rgba(255,255,255,0.04);
   border: 1px solid var(--border-soft);
   padding: 0.75rem 0.9rem;
@@ -238,18 +239,19 @@ input[type="range"]:focus::-moz-range-track {
 .result-line span {
   color: var(--muted);
   line-height: 1.35;
-  margin-right: 0; /* ensure no stray right margin collapses the gap */
+  margin-right: 0;
 }
 
-/* Output styling: keep to the right and add breathing room */
+/* Output styling: make separation unmistakable */
 .result-line output {
-  justify-self: end;     /* anchor to the right edge of the card */
+  justify-self: end;           /* anchor to the right edge */
   text-align: right;
   font-variant-numeric: tabular-nums;
   font-weight: 800;
-  padding-left: 0.35rem; /* a little extra space next to the label/track */
-  min-width: 4ch;        /* prevents tiny numbers from hugging the label */
+  padding-left: 0.5rem;        /* <-- always add a bit of breathing room */
+  min-width: 5ch;              /* <-- ensures short values don't hug the label */
 }
+
 
 output {
   font-variant-numeric: tabular-nums;
