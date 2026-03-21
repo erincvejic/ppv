@@ -1,5 +1,288 @@
+/* =========================================================  margin: 0 auto;
+  padding: var(--space-3) var(--space-2) calc(var(--space-3) + 4px);
+}
 
-/* =========================================================
+/* Header */
+header h1 {
+  margin: 0 0 0.25rem 0;
+  font-size: var(--font-h1);
+  letter-spacing: 0.2px;
+}
+.subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--font-small);
+}
+
+/* Cards */
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  margin-top: var(--space-2);
+  box-shadow: var(--shadow);
+}
+
+/* Section titles */
+.card > h2 {
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--font-h2);
+}
+
+/* Forms: Mobile-first, single column; expand later */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+}
+
+/* On larger screens, use multi-column */
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.field label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 0.78rem 0.9rem;          /* Large tap target */
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.12);
+  color: var(--text);
+  outline: none;
+  /* Ensure iOS doesn’t zoom (>=16px) */
+  font-size: var(--font-base);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="number"]::placeholder { color: var(--muted); opacity: 0.85; }
+
+input[type="number"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+/* --- iOS Safari: prevent focus zoom by guaranteeing >=16px on inputs --- */
+@supports (-webkit-touch-callout: none) {
+  input, select, textarea, button {
+    font-size: 16px !important; /* hard stop for iOS */
+  }
+}
+
+/* --- Range slider: large thumb, accessible track --- */
+.field .slider-row {
+  display: grid;
+  grid-template-columns: 1fr auto; /* track + live value */
+  gap: 0.6rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 36px;                /* enough height for a big thumb */
+  background: transparent;     /* we style track/ thumb separately */
+  touch-action: manipulation;
+}
+
+input[type="range"]:focus {
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+input[type="range"]::-moz-range-track {
+  height: 8px;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -10px;           /* center thumb on 8px track */
+  width: 28px; height: 28px;   /* big, thumb-friendly */
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--accent), rgba(138,163,255,0.6));
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--accent), rgba(138,163,255,0.6));
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+}
+
+/* Active/focus state for the track */
+input[type="range"]:focus::-webkit-slider-runnable-track {
+  box-shadow: 0 0 0 3px var(--ring);
+  border-color: var(--accent);
+}
+input[type="range"]:focus::-moz-range-track {
+  outline: 3px solid var(--ring);
+  border-color: var(--accent);
+}
+
+/* Value pill on the right of the slider */
+.slider-value {
+  font-size: var(--font-small);
+  color: var(--text);
+  background: rgba(255,255,255,0.08);
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  min-width: 4ch;
+  text-align: right;
+}
+
+/* Help and error */
+.help {
+  color: var(--muted);
+  display: block;
+  margin-top: 0.35rem;
+  font-size: var(--font-small);
+}
+
+.error {
+  color: var(--danger);
+  min-height: 1.2em;
+  font-size: var(--font-small);
+  margin-top: 0.25rem;
+}
+
+/* Actions: stack on mobile, inline on larger screens */
+.actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+@media (min-width: 520px) {
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+}
+
+/* Buttons: large hit areas */
+.btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(138,163,255,0.20), rgba(138,163,255,0.06));
+  color: var(--text);
+  padding: 0.8rem 1rem;             /* Bigger tap target */
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.04s ease, background 0.2s ease, opacity 0.2s ease;
+  touch-action: manipulation;       /* Reduce delay on touch */
+}
+.btn.secondary {
+  background: rgba(255,255,255,0.06);
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0px) scale(0.99); }
+
+.status {
+  color: var(--accent-strong);
+  min-height: 1.4em;
+  font-size: var(--font-small);
+}
+
+/* Results container */
+.results {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem; /* space between rows of result lines */
+}
+
+/* Each result line is a 2-col grid: label (1fr) + value (auto) */
+.result-line {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 0.75rem;  /* explicit horizontal gap between label and output */
+  row-gap: 0.25rem;     /* small vertical gap if label wraps */
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-soft);
+  padding: 0.75rem 0.9rem;
+  border-radius: 12px;
+}
+
+/* Label styling */
+.result-line span {
+  color: var(--muted);
+  line-height: 1.35;
+  margin-right: 0; /* ensure no stray right margin collapses the gap */
+}
+
+/* Output styling: keep to the right and add breathing room */
+.result-line output {
+  justify-self: end;     /* anchor to the right edge of the card */
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  padding-left: 0.35rem; /* a little extra space next to the label/track */
+  min-width: 4ch;        /* prevents tiny numbers from hugging the label */
+}
+
+output {
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+/* Footer */
+footer {
+  margin-top: var(--space-2);
+  color: var(--muted);
+  font-size: var(--font-small);
+}
+code {
+  background: rgba(255,255,255,0.10);
+  padding: 0.12rem 0.4rem;
+  border-radius: 6px;
+}
+
+/* Prefer reduced motion: minimize transitions */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Improve contrast on very small devices (optional) */
+@media (max-width: 360px) {
+  .result-line { padding: 0.6rem 0.7rem; }
+  .btn { padding: 0.7rem 0.9rem; }
+}
+``
    Mobile-first, accessible, and touch-friendly styles
    Optimised for phones used via QR code access
    ========================================================= */
@@ -88,294 +371,3 @@ body {
 .container {
   width: 100%;
   max-width: var(--max-w);
-  margin: 0 auto;
-  padding: var(--space-3) var(--space-2) calc(var(--space-3) + 4px);
-}
-
-/* Header */
-header h1 {
-  margin: 0 0 0.25rem 0;
-  font-size: var(--font-h1);
-  letter-spacing: 0.2px;
-}
-.subtitle {
-  margin: 0;
-  color: var(--muted);
-  font-size: var(--font-small);
-}
-
-/* Cards */
-.card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: var(--space-3);
-  margin-top: var(--space-2);
-  box-shadow: var(--shadow);
-}
-
-/* Section titles */
-.card > h2 {
-  margin: 0 0 var(--space-2) 0;
-  font-size: var(--font-h2);
-}
-
-/* Forms: Mobile-first, single column; expand later */
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-2);
-}
-
-/* On larger screens, use multi-column */
-@media (min-width: 640px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (min-width: 900px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.field label {
-  display: block;
-  margin-bottom: 0.35rem;
-  font-weight: 600;
-}
-
-input[type="number"] {
-  width: 100%;
-  padding: 0.78rem 0.9rem;          /* Large tap target */
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: rgba(0,0,0,0.12);
-  color: var(--text);
-  outline: none;
-  /* Ensure iOS doesn’t zoom (>=16px) */
-  font-size: var(--font-base);
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-input[type="number"]::placeholder { color: var(--muted); opacity: 0.85; }
-
-input[type="number"]:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--ring);
-}
-
-/* --- iOS Safari: prevent focus zoom by guaranteeing >=16px on inputs --- */
-@supports (-webkit-touch-callout: none) {
-  input, select, textarea, button {
-    font-size: 16px !important; /* hard stop for iOS */
-  }
-}
-
-
-/* --- Range slider: large thumb, accessible track --- */  padding: 0.25rem 0.5rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  min-width: 4ch;
-  text-align: right;
-}
-``
-.field .slider-row {
-  display: grid;
-  grid-template-columns: 1fr auto; /* track + live value */
-  gap: 0.6rem;
-  align-items: center;
-  margin-top: 0.5rem;
-}
-
-input[type="range"] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 36px;                /* enough height for a big thumb */
-  background: transparent;     /* we style track/ thumb separately */
-  touch-action: manipulation;
-}
-
-input[type="range"]:focus {
-  outline: none;
-}
-
-input[type="range"]::-webkit-slider-runnable-track {
-  height: 8px;
-  background: rgba(255,255,255,0.18);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-}
-input[type="range"]::-moz-range-track {
-  height: 8px;
-  background: rgba(255,255,255,0.18);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  margin-top: -10px;           /* center thumb on 8px track */
-  width: 28px; height: 28px;   /* big, thumb-friendly */
-  border-radius: 50%;
-  background: linear-gradient(180deg, var(--accent), rgba(138,163,255,0.6));
-  border: 1px solid var(--border);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
-}
-input[type="range"]::-moz-range-thumb {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: linear-gradient(180deg, var(--accent), rgba(138,163,255,0.6));
-  border: 1px solid var(--border);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
-}
-
-/* Active/focus state for the track */
-input[type="range"]:focus::-webkit-slider-runnable-track {
-  box-shadow: 0 0 0 3px var(--ring);
-  border-color: var(--accent);
-}
-input[type="range"]:focus::-moz-range-track {
-  outline: 3px solid var(--ring);
-  border-color: var(--accent);
-}
-
-/* Value pill on the right of the slider */
-.slider-value {
-  font-size: var(--font-small);
-  color: var(--text);
-  background: rgba(255,255,255,0.08);
-
-
-
-.help {
-  color: var(--muted);
-  display: block;
-  margin-top: 0.35rem;
-  font-size: var(--font-small);
-}
-
-.error {
-  color: var(--danger);
-  min-height: 1.2em;
-  font-size: var(--font-small);
-  margin-top: 0.25rem;
-}
-
-/* Actions: stack on mobile, inline on larger screens */
-.actions {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-2);
-  margin-top: var(--space-2);
-}
-@media (min-width: 520px) {
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-2);
-  }
-}
-
-/* Buttons: large hit areas */
-.btn {
-  appearance: none;
-  border: 1px solid var(--border);
-  background: linear-gradient(180deg, rgba(138,163,255,0.20), rgba(138,163,255,0.06));
-  color: var(--text);
-  padding: 0.8rem 1rem;             /* Bigger tap target */
-  border-radius: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.04s ease, background 0.2s ease, opacity 0.2s ease;
-  touch-action: manipulation;       /* Reduce delay on touch */
-}
-
-.btn.secondary {
-  background: rgba(255,255,255,0.06);
-}
-
-.btn:hover { transform: translateY(-1px); }
-.btn:active { transform: translateY(0px) scale(0.99); }
-
-.status {
-  color: var(--accent-strong);
-  min-height: 1.4em;
-  font-size: var(--font-small);
-}
-
-
-* Results container */
-.results {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.6rem; /* space *between rows* of result lines */
-}
-
-/* Each result line is a 2-col grid: label (1fr) + value (auto) */
-.result-line {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  column-gap: 0.75rem;  /* <-- explicit horizontal gap between label and output */
-  row-gap: 0.25rem;     /* optional: small vertical gap if label wraps */
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border-soft);
-  padding: 0.75rem 0.9rem;
-  border-radius: 12px;
-}
-
-/* Label styling */
-.result-line span {
-  color: var(--muted);
-  line-height: 1.35;
-  margin-right: 0; /* make sure no stray right margin collapses the gap */
-}
-
-/* Output styling: keep to the right and add breathing room */
-.result-line output {
-  justify-self: end;     /* anchor to the right edge of the card */
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-  font-weight: 800;
-  padding-left: 0.35rem; /* a little extra space next to the label/track */
-  min-width: 4ch;        /* prevents tiny numbers from hugging the label */
-}
-
-
-output {
-  font-variant-numeric: tabular-nums;
-  font-weight: 800;
-}
-
-/* Footer */
-footer {
-  margin-top: var(--space-2);
-  color: var(--muted);
-  font-size: var(--font-small);
-}
-code {
-  background: rgba(255,255,255,0.10);
-  padding: 0.12rem 0.4rem;
-  border-radius: 6px;
-}
-
-/* Prefer reduced motion: minimize transitions */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Improve contrast on very small devices (optional) */
-@media (max-width: 360px) {
-  .result-line { padding: 0.6rem 0.7rem; }
-  .btn { padding: 0.7rem 0.9rem; }
-}
-``
