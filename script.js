@@ -9,6 +9,71 @@
   const form = document.getElementById('calcForm');
   const inputs = ['a','b','c','d','e'].map(id => /** @type {HTMLInputElement} */(document.getElementById(id)));
 
+
+// === Create a range slider for each number input and keep them in sync ===
+(function attachSliders() {
+  inputs.forEach((numEl) => {
+    // Find the field wrapper
+    const field = numEl.closest('.field');
+    if (!field) return;
+
+    // Find associated label; ensure it has an id for ARIA
+    const label = field.querySelector(`label[for="${numEl.id}"]`);
+    const labelId = label ? (label.id || (label.id = `${numEl.id}-label`)) : undefined;
+
+    // Build slider row: <input type="range"> + live value <span>
+    const row = document.createElement('div');
+    row.className = 'slider-row';
+
+    const slider = document.createElement('input');
+    slider.type = 'range';
+    slider.id = `${numEl.id}-slider`;
+    slider.min = numEl.min || '0';
+    slider.max = numEl.max || '100';
+    slider.step = numEl.step || '1';
+    slider.value = numEl.value || numEl.getAttribute('value') || '0';
+
+    if (labelId) slider.setAttribute('aria-labelledby', labelId);
+
+    const live = document.createElement('span');
+    live.className = 'slider-value';
+    live.textContent = slider.value;
+
+    row.appendChild(slider);
+    row.appendChild(live);
+
+    // Insert slider just above the error element (if present)
+    const errorEl = field.querySelector('.error');
+    if (errorEl) {
+      field.insertBefore(row, errorEl);
+    } else {
+      field.appendChild(row);
+    }
+
+    // Sync: slider -> number
+    slider.addEventListener('input', () => {
+      numEl.value = slider.value;
+      live.textContent = slider.value;
+      // trigger validation + recalculation
+      numEl.dispatchEvent(new Event('input', { bubbles: true }));
+      numEl.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+
+    // Sync: number -> slider (if user types or resets)
+    const syncBack = () => {
+      // clamp to slider range and respect step
+      const v = numEl.value === '' ? slider.min : numEl.value;
+      slider.value = v;
+      live.textContent = slider.value;
+    };
+    numEl.addEventListener('input', syncBack);
+    numEl.addEventListener('change', syncBack);
+  });
+})();
+
+
+
+  
   // Read values safely as numbers (NaN -> null)
   const readValues = () => {
     const v = {};
