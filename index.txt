@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Probability that a Research Finding is True (PPV) Calculator</title>
+  <meta name="description" content="Calculates the PPV (positive predictive value) that a research finding is true as a function of pre-study odds, power, significance level and bias." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container" role="main">
+    <header>
+      <h1>Probability that a Research Finding is True (PPV) Calculator</h1>
+      <p class="subtitle">Calculates the PPV (positive predictive value) that a research finding is true as a function of pre-study odds, power, significance level and bias. Enter values below. Results update instantly.</p>
+    </header>
+
+    <section aria-labelledby="inputs-title" class="card">
+      <h2 id="inputs-title">Inputs</h2>
+      <form id="calcForm" novalidate>
+        <div class="grid">
+          <div class="field">
+            <label for="a"># Relationships probed in <br> the field (c)</label>
+            <input type="number" id="a" name="a" inputmode="decimal" min="1" step="1" value="1" required aria-describedby="a-help" />
+            <small id="a-help" class="help">Allowed: 1–inf • Step 1 • Default 1</small>
+            <div class="error" id="a-error" aria-live="polite"></div>
+          </div>
+          <div class="field">
+            <label for="b">beta level <br> (1 - Power) </label>
+            <input type="number" id="b" name="b" inputmode="decimal" min="0" max="1" step="0.05" value="0.2" required aria-describedby="b-help" />
+            <small id="b-help" class="help">Allowed: 0–1 • step 0.05 • default 0.2</small>
+            <div class="error" id="b-error" aria-live="polite"></div>
+          </div>
+          <div class="field">
+            <label for="c">Ratio of "true" relationships to <br>"no relationships" (R)</label>
+            <input type="number" id="c" name="c" inputmode="decimal" min="0" step="0.0000001" value="1" required aria-describedby="c-help" />
+            <small id="c-help" class="help">Allowed: 0–inf • default 1</small>
+            <div class="error" id="c-error" aria-live="polite"></div>
+          </div>
+          <div class="field">
+            <label for="d">Significance level (alpha)</label>
+            <input type="number" id="d" name="d" inputmode="decimal" min="0" max="1" step="0.01" value="0.05" required aria-describedby="d-help" />
+            <small id="d-help" class="help">Allowed: 0–1 • step 0.01 • default 0.05</small>
+            <div class="error" id="d-error" aria-live="polite"></div>
+          </div>
+          <div class="field">
+            <label for="e"> Bias (u) </label>
+            <input type="number" id="e" name="e" inputmode="decimal" min="0" max="1" step="0.05" value="0.0" required aria-describedby="e-help" />
+            <small id="e-help" class="help">Allowed: 0–1 • step 0.05 • default 0</small>
+            <div class="error" id="e-error" aria-live="polite"></div>
+          </div>
+        <div class="actions">
+         	<button type="button" id="resetBtn" class="btn secondary">Reset to defaults</button>
+		<span id="shareStatus" class="status" aria-live="polite"></span>
+        </div>
+      </form>
+    </section>
+
+    <section aria-labelledby="results-title" class="card">
+      <h2 id="results-title">Results</h2>
+      <div class="results">
+        <div class="result-line"><span>Power (%) to detect an effect if there truely is one</span><output id="res1" aria-live="polite">—</output></div>
+        <div class="result-line"><span>Expected # detected effect when there IS a true effect (TP)</span><output id="res2" aria-live="polite">—</output></div>
+        <div class="result-line"><span>Expected # detected effects when there IS NOT a true effect (FP)</span><output id="res3" aria-live="polite">—</output></div>
+        <div class="result-line"><span>Positive Predictive Value (PPV) - Prob. that a research finding is true</span><output id="res4" aria-live="polite">—</output></div>
+      </div>
+    </section>
+
+    <footer>
+      <p class="muted">Formulas derived from Table 2 of Ioannidis (2005). doi:<code>10.1371/journal.pmed.0020124.t002</code></p>
+    </footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
