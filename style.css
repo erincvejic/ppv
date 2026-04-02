@@ -308,6 +308,27 @@ input[type="range"]:focus {
   text-align: right;
 }
 
+.ratio-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.ratio-presets button {
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  padding: 0.35rem 0.6rem;
+  font-size: var(--font-small);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.ratio-presets button:hover {
+  border-color: var(--accent);
+}
+
 /* ---------- Footer ---------- */
 footer {
   margin-top: var(--space-3);
