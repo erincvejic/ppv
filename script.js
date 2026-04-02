@@ -97,6 +97,65 @@
 
     const { b, c, d, e } = v;
 
+// ======================================================
+// Pre‑study odds (R): ratio input + presets
+// ======================================================
+
+const ratioInput = document.getElementById('c_ratio');
+const cHidden    = document.getElementById('c');
+const cError     = document.getElementById('c-error');
+const presetBtns = document.querySelectorAll('.ratio-presets button');
+
+// ---- Parse "n:m" → numeric R ----
+function parseRatio(str) {
+  if (!str) return null;
+
+  const match = str.trim().match(/^(\d+(?:\.\d+)?)\s*:\s*(\d+(?:\.\d+)?)$/);
+  if (!match) return null;
+
+  const left  = Number(match[1]);
+  const right = Number(match[2]);
+
+  if (left <= 0 || right <= 0) return null;
+
+  return left / right;
+}
+
+// ---- Apply ratio (from typing or preset) ----
+function applyRatio(ratioStr) {
+  const numericR = parseRatio(ratioStr);
+
+  if (numericR === null) {
+    cError.textContent = 'Enter odds as n:m (e.g. 1:10)';
+    cHidden.value = '';
+    return;
+  }
+
+  ratioInput.value = ratioStr;
+  cHidden.value = numericR;
+  cError.textContent = '';
+
+  // Trigger existing validation + recalculation
+  cHidden.dispatchEvent(new Event('input',  { bubbles: true }));
+  cHidden.dispatchEvent(new Event('change', { bubbles: true }));
+}
+
+// ---- Initialise default ----
+applyRatio('1:1');
+
+// ---- Listen to manual typing ----
+ratioInput.addEventListener('input', () => {
+  applyRatio(ratioInput.value);
+});
+
+// ---- Preset buttons ----
+presetBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    applyRatio(btn.dataset.ratio);
+  });
+});
+
+    
     // === Your formulas here ===
     const res1 = (1 - b)*100;               		// Power
     const res2 = ((1*(1-b)*c)+(e*1*b*c))/(c+1); 	// Expectation 1
