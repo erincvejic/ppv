@@ -1,14 +1,66 @@
 (() => {
-  const inputs = ['b', 'c', 'd', 'e'].map(id =>
-    document.getElementById(id)
-  );
+  const DECIMALS = 3;
 
-  // =====================
-  // Ratio handling (ONCE)
-  // =====================
+  const numericIds = ['b', 'd', 'e'];   // sliders
+  const allInputs  = ['b', 'c', 'd', 'e'];
+
+  const numericInputs = numericIds.map(id => document.getElementById(id));
+  const allInputEls   = allInputs.map(id => document.getElementById(id));
+
+  // ======================================================
+  // SLIDERS (for numeric inputs only)
+  // ======================================================
+  function attachSliders() {
+    numericInputs.forEach(numEl => {
+      const field = numEl.closest('.field');
+      if (!field) return;
+
+      const label = field.querySelector(`label[for="${numEl.id}"]`);
+      if (label && !label.id) label.id = `${numEl.id}-label`;
+
+      const row = document.createElement('div');
+      row.className = 'slider-row';
+
+      const slider = document.createElement('input');
+      slider.type  = 'range';
+      slider.min   = numEl.min ?? 0;
+      slider.max   = numEl.max ?? 1;
+      slider.step  = numEl.step ?? 0.01;
+      slider.value = numEl.value;
+
+      if (label) slider.setAttribute('aria-labelledby', label.id);
+
+      const live = document.createElement('span');
+      live.className = 'slider-value';
+      live.textContent = slider.value;
+
+      row.appendChild(slider);
+      row.appendChild(live);
+
+      const error = field.querySelector('.error');
+      field.insertBefore(row, error ?? null);
+
+      // slider → number
+      slider.addEventListener('input', () => {
+        numEl.value = slider.value;
+        live.textContent = slider.value;
+        updateResults();
+      });
+
+      // number → slider
+      numEl.addEventListener('input', () => {
+        slider.value = numEl.value;
+        live.textContent = slider.value;
+      });
+    });
+  }
+
+  // ======================================================
+  // RATIO INPUT (Pre‑study odds R)
+  // ======================================================
   const ratioInput = document.getElementById('c_ratio');
-  const cHidden = document.getElementById('c');
-  const cError = document.getElementById('c-error');
+  const cHidden    = document.getElementById('c');
+  const cError     = document.getElementById('c-error');
   const presetBtns = document.querySelectorAll('.ratio-presets button');
 
   function parseRatio(str) {
@@ -37,9 +89,9 @@
     b.addEventListener('click', () => applyRatio(b.dataset.ratio))
   );
 
-  // =====================
-  // Calculation
-  // =====================
+  // ======================================================
+  // CALCULATION
+  // ======================================================
   function updateResults() {
     const b = parseFloat(document.getElementById('b').value);
     const c = parseFloat(document.getElementById('c').value);
@@ -53,25 +105,34 @@
     }
 
     const power = (1 - b) * 100;
-    const num = (1 - b + e * b) * c;
-    const den = num + (d + e * (1 - d));
-    const ppv = num / den;
+    const numerator   = (1 - b + e * b) * c;
+    const denominator = numerator + (d + e * (1 - d));
+    const ppv = numerator / denominator;
 
     set('res1', power.toFixed(1));
-    set('res4', ppv.toFixed(3));
+    set('res4', ppv.toFixed(DECIMALS));
   }
 
   function set(id, val) {
     document.getElementById(id).textContent = val;
   }
 
+  // ======================================================
+  // RESET
+  // ======================================================
   document.getElementById('resetBtn').addEventListener('click', () => {
     document.getElementById('b').value = 0.2;
     document.getElementById('d').value = 0.05;
     document.getElementById('e').value = 0;
     applyRatio('1:1');
+    updateResults();
   });
 
-  inputs.forEach(i => i.addEventListener('input', updateResults));
+  // ======================================================
+  // INIT
+  // ======================================================
+  attachSliders();
+  allInputEls.forEach(el => el.addEventListener('input', updateResults));
   updateResults();
 })();
+``
