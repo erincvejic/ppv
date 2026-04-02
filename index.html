@@ -3,95 +3,113 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>Positive Predictive Value (PPV) Calculator</title>
-  <meta name="description" content="Calculates the PPV that a research finding is true as a function of pre-study odds, power, significance level and bias." />
- <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="style.css" />
+  <meta name="description" content="Calculate the probability a research finding is true using pre-study odds, power, significance level, and bias." />
+
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <main class="container" role="main">
+  <div class="container">
     <header>
       <h1>Positive Predictive Value (PPV) Calculator</h1>
-      <p class="subtitle">Calculates the PPV that a research finding is "true" as a function of pre-study odds, power, significance level and bias. Enter values below or use the sliders. Results instantly update.</p>
+      <p class="subtitle">
+        Calculates the PPV that a research finding is “true” as a function of
+        pre‑study odds, power, significance level and bias.
+      </p>
     </header>
 
-    <section aria-labelledby="inputs-title" class="card">
-      <h2 id="inputs-title">Inputs</h2>
-      <form id="calcForm" novalidate>
+    <form id="calcForm" novalidate>
+      <section class="card">
+        <h2>Inputs</h2>
+
         <div class="grid">
+
+          <!-- Beta -->
           <div class="field">
-            <label for="b">beta level <br> (1 - Power) </label>
-            <input type="number" id="b" name="b" inputmode="decimal" min="0" max="1" step="0.05" value="0.2" required aria-describedby="b-help" />
-            <small id="b-help" class="help">Allowed: 0–1 • step 0.05 </small>
-            <div class="error" id="b-error" aria-live="polite"></div>
+            <label for="b" id="b-label">Beta level (1 − Power)</label>
+            <input id="b" type="number" min="0" max="1" step="0.05" value="0.2" required />
+            <small class="help">Allowed: 0–1 • step 0.05</small>
+            <div class="error" id="b-error"></div>
           </div>
 
-<div class="field">
-  <label for="c_ratio">
-    Pre‑study odds (R)<br>
-    true : no relationship
-  </label>
-
-  <!-- Ratio text input -->
-  <input
-    type="text"
-    id="c_ratio"
-    inputmode="text"
-    placeholder="e.g. 1:1 or 1:10"
-    aria-describedby="c-help"
-  />
-
-  <!-- Preset buttons -->
-  <div class="ratio-presets">
-    <button type="button" data-ratio="2:1">2:1</button>
-    <button type="button" data-ratio="1:1">1:1</button>
-    <button type="button" data-ratio="1:5">1:5</button>
-    <button type="button" data-ratio="1:10">1:10</button>
-  </div>
-
-  <!-- Hidden numeric value used by the calculator -->
-  <input type="hidden" id="c" value="1" />
-
-  <small id="c-help" class="help">
-    Enter odds as a ratio (e.g. 1:1 = equal odds, 1:10 = very unlikely)
-  </small>
-
-  <div class="error" id="c-error" aria-live="polite"></div>
-</div>
-		
+          <!-- Pre‑study odds -->
           <div class="field">
-            <label for="d">Significance level (alpha)</label>
-            <input type="number" id="d" name="d" inputmode="decimal" min="0" max="1" step="0.001" value="0.05" required aria-describedby="d-help" />
-            <small id="d-help" class="help">Allowed: 0–1 • step 0.001</small>
-            <div class="error" id="d-error" aria-live="polite"></div>
+            <label for="c_ratio" id="c-label">
+              Pre‑study odds (R)<br>
+              true : no relationship
+            </label>
+
+            <input
+              type="text"
+              id="c_ratio"
+              placeholder="e.g. 1:1 or 1:10"
+              inputmode="text"
+            />
+
+            <div class="ratio-presets">
+              <button type="button" data-ratio="2:1">2:1</button>
+              <button type="button" data-ratio="1:1">1:1</button>
+              <button type="button" data-ratio="1:5">1:5</button>
+              <button type="button" data-ratio="1:10">1:10</button>
+            </div>
+
+            <!-- actual numeric R -->
+            <input type="hidden" id="c" value="1" />
+
+            <small class="help">
+              Enter odds as a ratio (e.g. 1:10 = very unlikely).
+            </small>
+            <div class="error" id="c-error"></div>
           </div>
+
+          <!-- Alpha -->
           <div class="field">
-            <label for="e"> Bias (u) </label>
-            <input type="number" id="e" name="e" inputmode="decimal" min="0" max="1" step="0.05" value="0.0" required aria-describedby="e-help" />
-            <small id="e-help" class="help">Allowed: 0–1 • step 0.05</small>
-            <div class="error" id="e-error" aria-live="polite"></div>
+            <label for="d" id="d-label">Significance level (α)</label>
+            <input id="d" type="number" min="0" max="1" step="0.001" value="0.05" required />
+            <small class="help">Allowed: 0–1 • step 0.001</small>
+            <div class="error" id="d-error"></div>
           </div>
-        <div class="actions">
-         	<button type="button" id="resetBtn" class="btn secondary">Reset to defaults</button>
-		<span id="shareStatus" class="status" aria-live="polite"></span>
+
+          <!-- Bias -->
+          <div class="field">
+            <label for="e" id="e-label">Bias (u)</label>
+            <input id="e" type="number" min="0" max="1" step="0.05" value="0" required />
+            <small class="help">Allowed: 0–1 • step 0.05</small>
+            <div class="error" id="e-error"></div>
+          </div>
+
         </div>
-      </form>
-    </section>
 
-    <section aria-labelledby="results-title" class="card">
-      <h2 id="results-title">Results</h2>
+        <div class="actions">
+          <button id="resetBtn" type="button" class="btn">Reset to defaults</button>
+        </div>
+      </section>
 
-<div class="results">
-  <div class="result-line"><span>Power (%) to detect an effect if there truely is one: </span><output id="res1" aria-live="polite">—</output></div>
-  <div class="result-line"><span>PPV (Probability that a research finding is true): </span><output id="res4" aria-live="polite">—</output></div>
-</div>
+      <section class="card">
+        <h2>Results</h2>
 
-    </section>
+        <div class="results">
+          <div class="result-line">
+            <span>Power (%) to detect an effect if there truly is one:</span>
+            <output id="res1">—</output>
+          </div>
+
+          <div class="result-line">
+            <span>PPV (Probability that a research finding is true):</span>
+            <output id="res4">—</output>
+          </div>
+        </div>
+      </section>
+    </form>
 
     <footer>
-      <p class="muted">Formulas as presented in Table 2 of Ioannidis (2005). doi:<code>10.1371/journal.pmed.0020124.t002</code></p>
+      Formulas as presented in Table 2 of Ioannidis (2005).  
+      doi:10.1371/journal.pmed.0020124
     </footer>
-  </main>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
