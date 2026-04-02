@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Positive Predictive Value (PPV) Calculator</title>
-  <meta name="description" content="Calculate the probability a research finding is true using pre-study odds, power, significance level, and bias." />
+  <meta name="description"
+        content="Calculate the probability a research finding is true using pre-study odds, power, significance level, and bias." />
 
+  <!-- ✅ LOAD CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -28,8 +30,8 @@
 
           <!-- Beta -->
           <div class="field">
-            <label for="b" id="b-label">Beta (β) level <br>
-                                        (1 − Power)</label>
+            <label for="b" id="b-label">Beta (β)<br>
+              (1 − Power)</label>
             <input id="b" type="number" min="0" max="1" step="0.05" value="0.2" required />
             <small class="help">Allowed: 0–1 • step 0.05</small>
             <div class="error" id="b-error"></div>
@@ -56,12 +58,9 @@
               <button type="button" data-ratio="1:10">1:10</button>
             </div>
 
-            <!-- actual numeric R -->
+            <!-- ✅ numeric R used internally -->
             <input type="hidden" id="c" value="1" />
-
-            <small class="help">
-              Enter odds as a ratio (e.g. 1:10 = very unlikely).
-            </small>
+            <small class="help">Enter odds as a ratio (e.g. 1:10 = very unlikely).</small>
             <div class="error" id="c-error"></div>
           </div>
 
@@ -106,10 +105,11 @@
     </form>
 
     <footer>
-      Formulas as presented in Table 2 of Ioannidis (2005).doi:<code>10.1371/journal.pmed.0020124</code>
+      Formulas as presented in Table 2 of Ioannidis (2005). doi:<code>10.1371/journal.pmed.0020124</code>
     </footer>
   </div>
 
-  <script src="script.js"></script>
+  <!-- ✅ LOAD JS -->
+  <script src="script.js" defer></script>
 </body>
 </html>
