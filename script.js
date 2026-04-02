@@ -4,10 +4,10 @@
   const DECIMALS = 3; // number of decimal places for results
 
   // Map of input ids to friendly labels (used for messages & share link)
-  const INPUT_LABELS = { a: 'A', b: 'B', c: 'C', d: 'D', e: 'E' };
+  const INPUT_LABELS = {b: 'B', c: 'C', d: 'D', e: 'E' };
 
   const form = document.getElementById('calcForm');
-  const inputs = ['a','b','c','d','e'].map(id => /** @type {HTMLInputElement} */(document.getElementById(id)));
+  const inputs = ['b','c','d','e'].map(id => /** @type {HTMLInputElement} */(document.getElementById(id)));
 
 
 // === Create a range slider for each number input and keep them in sync ===
@@ -95,21 +95,21 @@
       return;
     }
 
-    const { a, b, c, d, e } = v;
+    const { b, c, d, e } = v;
 
     // === Your formulas here ===
     const res1 = (1 - b)*100;               		// Power
-    const res2 = ((a*(1-b)*c)+(e*a*b*c))/(c+1); 	// Expectation 1
-    const res3 = ((a*d)+((e*a)*(1-d)))/(c+1);    	// Expectation 2
+    const res2 = ((1*(1-b)*c)+(e*1*b*c))/(c+1); 	// Expectation 1
+    const res3 = ((1*d)+((e*1)*(1-d)))/(c+1);    	// Expectation 2
     const res4 = res2/(res2+res3);                 			// PPV
     
 
-    setOutputs(res1, res2, res3, res4);
+    setOutputs(res1, res4);
   };
 
   // Write into outputs with rounding
   const setOutputs = (...vals) => {
-    const ids = ['res1','res2','res3','res4'];
+    const ids = ['res1','res4'];
     ids.forEach((id, i) => {
       const el = document.getElementById(id);
       const v = vals[i];
