@@ -25,12 +25,40 @@
             <small id="b-help" class="help">Allowed: 0–1 • step 0.05 </small>
             <div class="error" id="b-error" aria-live="polite"></div>
           </div>
-          <div class="field">
-            <label for="c">Ratio of "true" relationships to <br>"no relationships" (R)</label>
-            <input type="number" id="c" name="c" inputmode="decimal" min="0" step="0.0000001" value="1" required aria-describedby="c-help" />
-            <small id="c-help" class="help">Allowed: 0–inf </small>
-            <div class="error" id="c-error" aria-live="polite"></div>
-          </div>
+
+<div class="field">
+  <label for="c_ratio">
+    Pre‑study odds (R)<br>
+    true : no relationship
+  </label>
+
+  <!-- Ratio text input -->
+  <input
+    type="text"
+    id="c_ratio"
+    inputmode="text"
+    placeholder="e.g. 1:1 or 1:10"
+    aria-describedby="c-help"
+  />
+
+  <!-- Preset buttons -->
+  <div class="ratio-presets">
+    <button type="button" data-ratio="2:1">2:1</button>
+    <button type="button" data-ratio="1:1">1:1</button>
+    <button type="button" data-ratio="1:5">1:5</button>
+    <button type="button" data-ratio="1:10">1:10</button>
+  </div>
+
+  <!-- Hidden numeric value used by the calculator -->
+  <input type="hidden" id="c" value="1" />
+
+  <small id="c-help" class="help">
+    Enter odds as a ratio (e.g. 1:1 = equal odds, 1:10 = very unlikely)
+  </small>
+
+  <div class="error" id="c-error" aria-live="polite"></div>
+</div>
+		
           <div class="field">
             <label for="d">Significance level (alpha)</label>
             <input type="number" id="d" name="d" inputmode="decimal" min="0" max="1" step="0.001" value="0.05" required aria-describedby="d-help" />
